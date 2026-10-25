@@ -16,6 +16,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, message: "Please submit a valid form." }, { status: 400 });
   }
 
+  if (!body || typeof body !== "object" || Array.isArray(body)) {
+    return NextResponse.json({ ok: false, message: "Please submit a valid form." }, { status: 400 });
+  }
+
   // Honeypot: bots often fill hidden fields; quietly accept without processing.
   if (clean(body.website, 200)) {
     return NextResponse.json({ ok: true, message: "Thank you. Your message has been received." });
